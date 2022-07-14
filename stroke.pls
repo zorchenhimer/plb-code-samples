@@ -1,0 +1,63 @@
+. PL/B doesn't have reserved words.  PL/B also distinguishes between
+. data and code labels.
+.
+. This program demonstrates why that is a bad idea.
+
+ELSEIF   EQU   2
+DISPLAY  INIT "HELLO?!"
+ELSE     FORM "3"
+ENDIF    INIT "HELLO WORLD!"
+FALSE    INIT "TRUE"
+FOR      FORM  ELSEIF
+FROM     FORM  ELSEIF
+GOTO     INIT "YES"
+IF       FORM "2"
+MOVE     FORM  2
+SUBTRACT FORM "1"
+T        FORM  2
+TO       FORM "5"
+TOO      FORM "1"
+TOOO     FORM "1"
+SomeVar  DIM   10
+
+    MOVE IF FROM MOVE
+    RESET GOTO BY IF
+    BUMP GOTO
+    MOVEFPTR GOTO FROM IF
+    RESET GOTO
+    IF (IF = ELSE)
+        DISPLAY ENDIF
+        GOTO GOTO IF (GOTO <> FALSE)
+    ELSE
+        DISPLAY DISPLAY
+    ENDIF
+    DISPLAY "YOU DON'T"," SEE ME"
+
+GOTO
+    DISPLAY ENDIF
+    BUMP GOTO BY MOVE
+    FOR FOR FROM SUBTRACT TO TO BY SUBTRACT
+        FOR FROM FROM FOR TO TO BY SUBTRACT
+            DISPLAY *LL,GOTO;
+        REPEAT
+        DISPLAY *N;
+    REPEAT
+
+    FOR T TO TOO TO TO TO TOOO
+        DISPLAY T
+    REPEAT
+
+    DISPLAY "WHAT HAVE I DONE"
+
+BUMP
+    MOVE "1" TO T
+    DISPLAY T
+
+    RESET sOMEvAR TO T
+    MOVEPLEN SOMEVAR TO T
+    SETLPTR SOMEVAR TO T
+    BUMP SOMEVAR
+    MOVEFPTR SOMEVAR TO T
+
+    DISPLAY T
+    STOP
