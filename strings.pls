@@ -148,4 +148,5 @@ NoTests
     endif
     call CreateTestFile
     move "Y" to FileWritten
+    return
     stop

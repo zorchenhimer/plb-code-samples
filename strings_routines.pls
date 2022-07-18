@@ -5,23 +5,13 @@
 .   - Extension without filename
 
 .   Include the test data and expected results.
-.    include "strings.inc"
+    include "strings.inc"
 
 X form 2
 Y form 2
 Result dim 100
 Pass dim 1
 Input dim 100
-
-TestCase list
-tPath dim 100
-tDir dim 100
-tFile dim 100
-tExtension dim 10
-    listend
-TestFile file
-NewFile file
-seq form "-1"
 
     trap NoTests if io
     open TestFile,"strings_tests.csv"
@@ -152,6 +142,11 @@ GetExtension
     return
 
 NoTests
-    display "Unable to open strings_tests.txt"
-    display S$ERROR$
+    if (FileWritten = "Y")
+        display "Unable to open strings_tests.txt"
+        display S$ERROR$
+    endif
+    call CreateTestFile
+    move "Y" to FileWritten
+    return
     stop
