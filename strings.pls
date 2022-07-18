@@ -4,38 +4,44 @@
 .   - Filename without directory
 .   - Extension without filename
 
-.   Include the test data and expected results.
     include "strings.inc"
 
 X form 2
 Result dim 100
 Pass init "y"
 
+    trap NoTests if io
+    open TestFile,"strings_tests.csv"
+    trapclr io
+
 Start
 .   Loop through each Path test case and compare the result to the expected
 .   values.
-    for x from "1" to PathsLen by "1"
-        display *n,*ll,Paths(x)
-        call GetDirectory giving Result using Paths(x)
-        if (Dirs(x) <> Result)
+    loop
+        read TestFile,seq;*cdfon,TestCase
+        break if over
+        display *n,*ll,tPath
+
+        call GetDirectory giving Result using tPath
+        if (tDir <> Result)
             display "GetDirectory failed"
-            display "Expected: #"",*ll,Dirs(x),"#"" // "
+            display "Expected: #"",*ll,tDir,"#"" // "
             display "Recieved: #"",*ll,Result,"#"" // "
             move "n" to Pass
         endif
 
-        call GetFile giving Result using Paths(x)
-        if (Files(x) <> Result)
+        call GetFile giving Result using tPath
+        if (tFile <> Result)
             display "GetFile failed"
-            display "Expected: #"",*ll,Files(x),"#"" // "
+            display "Expected: #"",*ll,tFile,"#"" // "
             display "Recieved: #"",*ll,Result,"#"" // "
             move "n" to Pass
         endif
 
-        call GetExtension giving Result using Paths(x)
-        if (Extensions(x) <> Result)
+        call GetExtension giving Result using tPath
+        if (tExtension <> Result)
             display "GetExtension failed"
-            display "Expected: #"",*ll,Extensions(x),"#"" // "
+            display "Expected: #"",*ll,tExtension,"#"" // "
             display "Recieved: #"",*ll,Result,"#"" // "
             move "n" to Pass
         endif
@@ -46,6 +52,7 @@ Start
             display " Failed"
         endif
     repeat
+    close TestFile
     stop
 
 . Extract the directory without the filename.
@@ -102,6 +109,12 @@ Result dim 100
 .   the end.
     move Input to Result
 
+.   Check for an empty string
+    count Y in Result
+    if (Y = 0)
+        return using ""
+    endif
+
     return using Result
     functionend
 
@@ -127,3 +140,12 @@ Result dim 100
 
     return using result
     functionend
+
+NoTests
+    if (FileWritten = "Y")
+        display "Unable to open strings_tests.txt"
+        display S$ERROR$
+    endif
+    call CreateTestFile
+    move "Y" to FileWritten
+    stop
